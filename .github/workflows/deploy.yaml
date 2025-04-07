@@ -1,0 +1,24 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main   # или другая ветка, которую ты используешь
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: '1.31.0'   # или выбери актуальную версию
+
+      - name: Deploy manifests
+        run: |
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
+
